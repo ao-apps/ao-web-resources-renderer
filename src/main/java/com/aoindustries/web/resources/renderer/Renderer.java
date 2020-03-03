@@ -22,7 +22,27 @@
  */
 package com.aoindustries.web.resources.renderer;
 
+import com.aoindustries.html.Html;
+import com.aoindustries.html.Link;
+import com.aoindustries.net.EmptyURIParameters;
+import com.aoindustries.servlet.lastmodified.AddLastModified;
+import com.aoindustries.servlet.lastmodified.LastModifiedUtil;
+import com.aoindustries.web.resources.registry.Group;
+import com.aoindustries.web.resources.registry.Registry;
+import com.aoindustries.web.resources.registry.Style;
+import com.aoindustries.web.resources.registry.Styles;
 import com.aoindustries.web.resources.servlet.RegistryEE;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Renders the HTML output for web resource management.
@@ -39,7 +59,133 @@ import com.aoindustries.web.resources.servlet.RegistryEE;
  */
 public class Renderer {
 
-	// TODO
+	private static final String APPLICATION_ATTRIBUTE = Renderer.class.getName();
 
-	private Renderer() {}
+	@WebListener
+	public static class Initializer implements ServletContextListener {
+
+		@Override
+		public void contextInitialized(ServletContextEvent event) {
+			get(event.getServletContext());
+		}
+
+		@Override
+		public void contextDestroyed(ServletContextEvent event) {
+			// Do nothing
+		}
+	}
+
+	/**
+	 * Gets the {@link Renderer web resource renderer} for the given {@linkplain ServletContext servlet context}.
+	 */
+	public static Renderer get(ServletContext servletContext) {
+		Renderer renderer = (Renderer)servletContext.getAttribute(APPLICATION_ATTRIBUTE);
+		if(renderer == null) {
+			renderer = new Renderer(servletContext);
+			servletContext.setAttribute(APPLICATION_ATTRIBUTE, renderer);
+		}
+		return renderer;
+	}
+
+	private final ServletContext servletContext;
+	private Renderer(ServletContext servletContext) {
+		this.servletContext = servletContext;
+	}
+
+	// TODO: Add/remove (or set/clear if only one) optimizer hooks: UnaryOperator<Set<...>>?
+
+	/**
+	 * Combines all the styles from {@link HttpServletRequest} and {@link HttpSession} into a single set,
+	 * then renders the set of link tags.
+	 */
+	// TODO: Support included/inherited groups
+	// TODO: Support minusGroups, which would suppress inherited/included groups
+	public void renderLinks(HttpServletRequest request, HttpServletResponse response, Html html, Set<String> groups, String firstIndent, String subsequentIndent) throws IOException {
+		if(groups != null && !groups.isEmpty()) {
+			Registry requestRegistry = RegistryEE.get(servletContext, request);
+			Registry sessionRegistry = null;
+			HttpSession session = request.getSession(false);
+			if(session != null) sessionRegistry = RegistryEE.get(session);
+			// Perform a union of all selected groups from both request and session
+			List<Styles> allStyles = new ArrayList<>();
+			for(String groupName : groups) {
+				Group group = requestRegistry.getGroup(groupName, false);
+				if(group != null) {
+					allStyles.add(group.styles);
+				}
+				if(sessionRegistry != null) {
+					group = sessionRegistry.getGroup(groupName, false);
+					if(group != null) {
+						allStyles.add(group.styles);
+					}
+				}
+			}
+			int size = allStyles.size();
+			if(size > 0) {
+				Styles styles;
+				if(size == 1) {
+					styles = allStyles.get(0);
+				} else {
+					styles = Styles.union(allStyles);
+				}
+				Set<Style> sorted = styles.getSorted();
+				// TODO: Call optimizer hook
+				boolean didOne = false;
+				Style.Direction responseDirection = null;
+				for(Style style : sorted) {
+					// Filter for direction
+					boolean directionMatches;
+					Style.Direction direction = style.getDirection();
+					if(direction != null) {
+						if(responseDirection == null) {
+							responseDirection = Style.Direction.getDirection(response.getLocale());
+						}
+						directionMatches = (direction == responseDirection);
+					} else {
+						directionMatches = true;
+					}
+					if(directionMatches) {
+						if(!didOne) {
+							if(firstIndent != null) html.out.write(firstIndent);
+							didOne = true;
+						} else {
+							html.nl();
+							if(subsequentIndent != null) html.out.write(subsequentIndent);
+						}
+						@SuppressWarnings("deprecation")
+						String ie = style.getIe();
+						if(ie != null) {
+							html.out.write("<!--[if ");
+							html.out.write(ie);
+							html.out.write('>');
+						}
+						// TODO: Support inline styles
+						String href = style.getUri();
+						html.link(Link.Rel.STYLESHEET)
+							.href(href == null ? null :
+								LastModifiedUtil.buildURL(
+									servletContext,
+									request,
+									response,
+									"/", // TODO: contextPath here to handle ../ breaking out of application? 
+									     // TODO: All buildUrl add contextPath to servlet path to support ../ outside of application generally?
+									     // TODO: / is prefixed with contextPath, so due to lack of normalization: /../ would effectively be relative to the current contextPath
+									href,
+									EmptyURIParameters.getInstance(),
+									AddLastModified.AUTO,
+									false,
+									false
+								)
+							)
+							.media(style.getMedia())
+							.disabled(style.isDisabled())
+							.__();
+						if(ie != null) {
+							html.out.write("<![endif]-->");
+						}
+					}
+				}
+			}
+		}
+	}
 }
