@@ -61,6 +61,14 @@ public class Renderer {
 
 	private static final String APPLICATION_ATTRIBUTE = Renderer.class.getName();
 
+	/**
+	 * Comments included when no styles written.
+	 */
+	private static final String
+		NO_GROUPS            = "<!-- ao-web-resources-renderer: no groups -->",
+		NO_STYLES            = "<!-- ao-web-resources-renderer: no styles -->",
+		NO_APPLICABLE_STYLES = "<!-- ao-web-resources-renderer: no applicable styles -->";
+
 	@WebListener
 	public static class Initializer implements ServletContextListener {
 
@@ -97,11 +105,21 @@ public class Renderer {
 	/**
 	 * Combines all the styles from {@link HttpServletRequest} and {@link HttpSession} into a single set,
 	 * then renders the set of link tags.
+	 *
+	 * @param  indent  The indentation used between links, after a {@linkplain Html#nl() newline}.
 	 */
 	// TODO: Support included/inherited groups
 	// TODO: Support minusGroups, which would suppress inherited/included groups
-	public void renderLinks(HttpServletRequest request, HttpServletResponse response, Html html, Set<String> groups, String firstIndent, String subsequentIndent) throws IOException {
-		if(groups != null && !groups.isEmpty()) {
+	public void renderStyles(
+		HttpServletRequest request,
+		HttpServletResponse response,
+		Html html,
+		Set<String> groups,
+		String indent
+	) throws IOException {
+		if(groups == null || groups.isEmpty()) {
+			html.out.write(NO_GROUPS);
+		} else {
 			Registry requestRegistry = RegistryEE.get(servletContext, request);
 			Registry sessionRegistry = null;
 			HttpSession session = request.getSession(false);
@@ -121,7 +139,9 @@ public class Renderer {
 				}
 			}
 			int size = allStyles.size();
-			if(size > 0) {
+			if(size == 0) {
+				html.out.write(NO_STYLES);
+			} else {
 				Styles styles;
 				if(size == 1) {
 					styles = allStyles.get(0);
@@ -130,9 +150,11 @@ public class Renderer {
 				}
 				Set<Style> sorted = styles.getSorted();
 				// TODO: Call optimizer hook
+				boolean hasStyle = false;
 				boolean didOne = false;
 				Style.Direction responseDirection = null;
 				for(Style style : sorted) {
+					hasStyle = true;
 					// Filter for direction
 					boolean directionMatches;
 					Style.Direction direction = style.getDirection();
@@ -146,11 +168,10 @@ public class Renderer {
 					}
 					if(directionMatches) {
 						if(!didOne) {
-							if(firstIndent != null) html.out.write(firstIndent);
 							didOne = true;
 						} else {
 							html.nl();
-							if(subsequentIndent != null) html.out.write(subsequentIndent);
+							if(indent != null) html.out.write(indent);
 						}
 						@SuppressWarnings("deprecation")
 						String ie = style.getIe();
@@ -185,7 +206,17 @@ public class Renderer {
 						}
 					}
 				}
+				if(!didOne) {
+					if(!hasStyle) {
+						html.out.write(NO_STYLES);
+					} else {
+						html.out.write(NO_APPLICABLE_STYLES);
+					}
+				}
 			}
 		}
 	}
+
+	// TODO: renderScriptsHeadEnd
+	// TODO: renderScriptsBodyEnd
 }
