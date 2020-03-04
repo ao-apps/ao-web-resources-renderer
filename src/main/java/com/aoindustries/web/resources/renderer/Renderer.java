@@ -114,6 +114,8 @@ public class Renderer {
 	 */
 	// TODO: Support included/inherited groups
 	// TODO: Support minusGroups, which would suppress inherited/included groups
+	// TODO: boolean global flag here
+	// TODO: End with String ... groups (in overload)
 	public void renderStyles(
 		HttpServletRequest request,
 		HttpServletResponse response,
@@ -134,6 +136,7 @@ public class Renderer {
 			for(String groupName : groups) {
 				Group group = requestRegistry.getGroup(groupName, false);
 				if(logger.isLoggable(Level.FINER)) logger.finer("groupName: " + groupName + ", requestGroup: " + group);
+				// TODO: Error if group not found?
 				if(group != null) {
 					allStyles.add(group.styles);
 				}
