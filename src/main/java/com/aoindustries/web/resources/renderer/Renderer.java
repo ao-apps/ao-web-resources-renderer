@@ -121,7 +121,7 @@ public class Renderer {
 		Set<String> groups,
 		String indent
 	) throws IOException {
-		if(logger.isLoggable(Level.FINE)) logger.fine("groups = " + groups);
+		if(logger.isLoggable(Level.FINER)) logger.finer("groups = " + groups);
 		if(groups == null || groups.isEmpty()) {
 			html.out.write(NO_GROUPS);
 		} else {
@@ -133,13 +133,13 @@ public class Renderer {
 			List<Styles> allStyles = new ArrayList<>();
 			for(String groupName : groups) {
 				Group group = requestRegistry.getGroup(groupName, false);
-				if(logger.isLoggable(Level.FINE)) logger.fine("groupName: " + groupName + ", requestGroup: " + group);
+				if(logger.isLoggable(Level.FINER)) logger.finer("groupName: " + groupName + ", requestGroup: " + group);
 				if(group != null) {
 					allStyles.add(group.styles);
 				}
 				if(sessionRegistry != null) {
 					group = sessionRegistry.getGroup(groupName, false);
-					if(logger.isLoggable(Level.FINE)) logger.fine("groupName: " + groupName + ", sessionGroup: " + group);
+					if(logger.isLoggable(Level.FINER)) logger.finer("groupName: " + groupName + ", sessionGroup: " + group);
 					if(group != null) {
 						allStyles.add(group.styles);
 					}
@@ -152,10 +152,10 @@ public class Renderer {
 				Styles styles;
 				if(size == 1) {
 					styles = allStyles.get(0);
-					if(logger.isLoggable(Level.FINE)) logger.fine("direct styles: " + styles.getSorted());
+					if(logger.isLoggable(Level.FINER)) logger.finer("direct styles: " + styles.getSorted());
 				} else {
 					styles = Styles.union(allStyles);
-					if(logger.isLoggable(Level.FINE)) logger.fine("unioned styles: " + styles.getSorted());
+					if(logger.isLoggable(Level.FINER)) logger.finer("unioned styles: " + styles.getSorted());
 				}
 				Set<Style> sorted = styles.getSorted();
 				// TODO: Call optimizer hook
