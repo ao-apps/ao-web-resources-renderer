@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -58,6 +60,8 @@ import javax.servlet.http.HttpSession;
  * </p>
  */
 public class Renderer {
+
+	private static final Logger logger = Logger.getLogger(Renderer.class.getName());
 
 	private static final String APPLICATION_ATTRIBUTE = Renderer.class.getName();
 
@@ -117,6 +121,7 @@ public class Renderer {
 		Set<String> groups,
 		String indent
 	) throws IOException {
+		if(logger.isLoggable(Level.FINE)) logger.fine("groups = " + groups);
 		if(groups == null || groups.isEmpty()) {
 			html.out.write(NO_GROUPS);
 		} else {
@@ -128,11 +133,13 @@ public class Renderer {
 			List<Styles> allStyles = new ArrayList<>();
 			for(String groupName : groups) {
 				Group group = requestRegistry.getGroup(groupName, false);
+				if(logger.isLoggable(Level.FINE)) logger.fine("groupName: " + groupName + ", requestGroup: " + group);
 				if(group != null) {
 					allStyles.add(group.styles);
 				}
 				if(sessionRegistry != null) {
 					group = sessionRegistry.getGroup(groupName, false);
+					if(logger.isLoggable(Level.FINE)) logger.fine("groupName: " + groupName + ", sessionGroup: " + group);
 					if(group != null) {
 						allStyles.add(group.styles);
 					}
@@ -145,8 +152,10 @@ public class Renderer {
 				Styles styles;
 				if(size == 1) {
 					styles = allStyles.get(0);
+					if(logger.isLoggable(Level.FINE)) logger.fine("direct styles: " + styles.getSorted());
 				} else {
 					styles = Styles.union(allStyles);
+					if(logger.isLoggable(Level.FINE)) logger.fine("unioned styles: " + styles.getSorted());
 				}
 				Set<Style> sorted = styles.getSorted();
 				// TODO: Call optimizer hook
