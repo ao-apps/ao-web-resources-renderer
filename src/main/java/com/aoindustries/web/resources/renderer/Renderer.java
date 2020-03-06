@@ -34,7 +34,10 @@ import com.aoindustries.web.resources.registry.Styles;
 import com.aoindustries.web.resources.servlet.RegistryEE;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,7 +72,8 @@ public class Renderer {
 	 * Comments included when no styles written.
 	 */
 	private static final String
-		NO_GROUPS            = "<!-- ao-web-resources-renderer: no groups -->",
+		NO_REGISTRIES        = "<!-- ao-web-resources-renderer: no registries -->",
+		NO_ACTIVATIONS       = "<!-- ao-web-resources-renderer: no activations -->",
 		NO_STYLES            = "<!-- ao-web-resources-renderer: no styles -->",
 		NO_APPLICABLE_STYLES = "<!-- ao-web-resources-renderer: no applicable styles -->";
 
@@ -111,56 +115,109 @@ public class Renderer {
 	 * then renders the set of link tags.
 	 *
 	 * @param  indent  The indentation used between links, after a {@linkplain Html#nl() newline}.
+	 *
+	 * @param  registeredActivations  Should the registered activations be applied?
+	 *
+	 * @param  activations  Additional activations applied after those configured in the registries.
+	 *
+	 * @param  registries  Iterated up to twice: first to determine group activations,
+	 *                     then to union the styles from all activated groups.
 	 */
 	// TODO: Support included/inherited groups
-	// TODO: Support minusGroups, which would suppress inherited/included groups
-	// TODO: boolean global flag here
-	// TODO: End with String ... groups (in overload)
 	public void renderStyles(
 		HttpServletRequest request,
 		HttpServletResponse response,
 		Html html,
-		Set<String> groups,
-		String indent
+		String indent,
+		boolean registeredActivations,
+		Map<Group.Name,Boolean> activations,
+		Iterable<Registry> registries
 	) throws IOException {
-		if(logger.isLoggable(Level.FINER)) logger.finer("groups = " + groups);
-		if(groups == null || groups.isEmpty()) {
-			html.out.write(NO_GROUPS);
+		if(logger.isLoggable(Level.FINER)) logger.finer("registries = " + registries);
+		if(registries == null) {
+			if(logger.isLoggable(Level.FINER)) logger.finer(NO_REGISTRIES);
+			html.out.write(NO_REGISTRIES);
 		} else {
-			Registry requestRegistry = RegistryEE.get(servletContext, request);
-			Registry sessionRegistry = null;
-			HttpSession session = request.getSession(false);
-			if(session != null) sessionRegistry = RegistryEE.get(session);
-			// Perform a union of all selected groups from both request and session
-			List<Styles> allStyles = new ArrayList<>();
-			for(String groupName : groups) {
-				Group group = requestRegistry.getGroup(groupName, false);
-				if(logger.isLoggable(Level.FINER)) logger.finer("groupName: " + groupName + ", requestGroup: " + group);
-				// TODO: Error if group not found?
-				if(group != null) {
-					allStyles.add(group.styles);
+			// Resolve current activations
+			Set<Group.Name> groups = new HashSet<>();
+			if(registeredActivations) {
+				boolean hasRegistry = false;
+				for(Registry registry : registries) {
+					if(registry != null) {
+						hasRegistry = true;
+						for(Map.Entry<Group.Name,Boolean> entry : registry.getActivations().entrySet()) {
+							Group.Name name = entry.getKey();
+							assert entry.getValue() != null : "null activations are removed, not set as an entry";
+							boolean activated = entry.getValue();
+							if(activated) {
+								groups.add(name);
+							} else {
+								groups.remove(name);
+							}
+						}
+					}
 				}
-				if(sessionRegistry != null) {
-					group = sessionRegistry.getGroup(groupName, false);
-					if(logger.isLoggable(Level.FINER)) logger.finer("groupName: " + groupName + ", sessionGroup: " + group);
-					if(group != null) {
-						allStyles.add(group.styles);
+				if(!hasRegistry) {
+					if(logger.isLoggable(Level.FINER)) logger.finer(NO_REGISTRIES);
+					html.out.write(NO_REGISTRIES);
+					return;
+				}
+			}
+			if(activations != null) {
+				for(Map.Entry<Group.Name,Boolean> entry : activations.entrySet()) {
+					Group.Name name = entry.getKey();
+					Boolean activated = entry.getValue();
+					if(activated != null) {
+						if(activated) {
+							groups.add(name);
+						} else {
+							groups.remove(name);
+						}
 					}
 				}
 			}
+			if(logger.isLoggable(Level.FINER)) logger.finer("groups = " + groups);
+			if(groups.isEmpty()) {
+				if(logger.isLoggable(Level.FINER)) logger.finer(NO_ACTIVATIONS);
+				html.out.write(NO_ACTIVATIONS);
+				return;
+			}
+			// Find all the styles for all the activated groups in all registries
+			List<Styles> allStyles = new ArrayList<>();
+			boolean hasRegistry = false;
+			for(Registry registry : registries) {
+				if(registry != null) {
+					hasRegistry = true;
+					for(Group.Name name : groups) {
+						Group group = registry.getGroup(name, false);
+						if(logger.isLoggable(Level.FINEST)) logger.finest("name: " + name + ", group: " + group);
+						if(group != null) {
+							allStyles.add(group.styles);
+						}
+					}
+				}
+			}
+			if(!hasRegistry) {
+				if(logger.isLoggable(Level.FINER)) logger.finer(NO_REGISTRIES);
+				html.out.write(NO_REGISTRIES);
+				return;
+			}
+			// Perform a union of all styles
 			int size = allStyles.size();
 			if(size == 0) {
+				if(logger.isLoggable(Level.FINER)) logger.finer(NO_STYLES);
 				html.out.write(NO_STYLES);
 			} else {
 				Styles styles;
 				if(size == 1) {
 					styles = allStyles.get(0);
-					if(logger.isLoggable(Level.FINER)) logger.finer("direct styles: " + styles.getSorted());
+					if(logger.isLoggable(Level.FINEST)) logger.finest("direct styles: " + styles);
 				} else {
 					styles = Styles.union(allStyles);
-					if(logger.isLoggable(Level.FINER)) logger.finer("unioned styles: " + styles.getSorted());
+					if(logger.isLoggable(Level.FINEST)) logger.finest("unioned styles: " + styles);
 				}
 				Set<Style> sorted = styles.getSorted();
+				if(logger.isLoggable(Level.FINER)) logger.finer("sorted: " + styles);
 				// TODO: Call optimizer hook
 				boolean hasStyle = false;
 				boolean didOne = false;
@@ -201,8 +258,8 @@ public class Renderer {
 									request,
 									response,
 									"/", // TODO: contextPath here to handle ../ breaking out of application? 
-									     // TODO: All buildUrl add contextPath to servlet path to support ../ outside of application generally?
-									     // TODO: / is prefixed with contextPath, so due to lack of normalization: /../ would effectively be relative to the current contextPath
+										 // TODO: All buildUrl add contextPath to servlet path to support ../ outside of application generally?
+										 // TODO: / is prefixed with contextPath, so due to lack of normalization: /../ would effectively be relative to the current contextPath
 									href,
 									EmptyURIParameters.getInstance(),
 									AddLastModified.AUTO,
@@ -220,13 +277,38 @@ public class Renderer {
 				}
 				if(!didOne) {
 					if(!hasStyle) {
+						if(logger.isLoggable(Level.FINER)) logger.finer(NO_STYLES);
 						html.out.write(NO_STYLES);
 					} else {
+						if(logger.isLoggable(Level.FINER)) logger.finer(NO_APPLICABLE_STYLES);
 						html.out.write(NO_APPLICABLE_STYLES);
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.Html, java.lang.String, java.lang.Iterable)
+	 */
+	public void renderStyles(
+		HttpServletRequest request,
+		HttpServletResponse response,
+		Html html,
+		String indent,
+		boolean registeredActivations,
+		Map<Group.Name,Boolean> activations,
+		Registry ... registries
+	) throws IOException {
+		renderStyles(
+			request,
+			response,
+			html,
+			indent,
+			registeredActivations,
+			activations,
+			(registries == null) ? null : Arrays.asList(registries)
+		);
 	}
 
 	// TODO: renderScriptsHeadEnd
