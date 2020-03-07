@@ -35,8 +35,6 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 	<properties>
 		<!-- These values are copied from the project being documented -->
 		<documented.artifactId>ao-web-resources-renderer</documented.artifactId>
-		<documented.javaVersion>1.8</documented.javaVersion>
-		<documented.javac.link.javaApi>${javac.link.javaApi.jdk8}</documented.javac.link.javaApi>
 		<documented.name>AO Web Resources Renderer</documented.name>
 		<documented.shortTitle>Renderer</documented.shortTitle>
 		<documented.description>Renders HTML for web resource management.</documented.description>
