@@ -44,7 +44,6 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 	<inceptionYear>2020</inceptionYear>
 
 	<scm>
-		<!-- Can't inherit due to multi-module -->
 		<connection>scm:git:git://github.com/aoindustries/ao-web-resources-renderer.git</connection>
 		<developerConnection>scm:git:git@github.com:aoindustries/ao-web-resources-renderer.git</developerConnection>
 		<url>https://github.com/aoindustries/ao-web-resources-renderer</url>
