@@ -31,7 +31,6 @@ import com.aoindustries.web.resources.registry.Group;
 import com.aoindustries.web.resources.registry.Registry;
 import com.aoindustries.web.resources.registry.Style;
 import com.aoindustries.web.resources.registry.Styles;
-import com.aoindustries.web.resources.servlet.RegistryEE;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +55,7 @@ import javax.servlet.http.HttpSession;
  * However, it provides a hook for optimizers to affect what it rendered.
  * </p>
  * <p>
- * This is placed in a distinct project from {@link RegistryEE} because it
+ * This is placed in a distinct project from {@link com.aoindustries.web.resources.servlet.RegistryEE} because it
  * adds several dependencies that are not required by projects that simply
  * register themselves.  This choice is consistent with our "micro project"
  * principle.

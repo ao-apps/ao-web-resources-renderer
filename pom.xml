@@ -72,8 +72,14 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 								<link>https://aoindustries.com/ao-net-types/apidocs/</link>
 								<link>https://aoindustries.com/ao-servlet-last-modified/apidocs/</link>
 								<link>https://aoindustries.com/ao-web-resources/registry/apidocs/</link>
+								<!-- Javadoc-only -->
 								<link>https://aoindustries.com/ao-web-resources/servlet/apidocs/</link>
 							</links>
+							<additionalDependencies>
+								<additionalDependency>
+									<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-servlet</artifactId><version>0.1.0${POST-SNAPSHOT}</version>
+								</additionalDependency>
+							</additionalDependencies>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -102,9 +108,6 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 			<dependency>
 				<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-registry</artifactId><version>0.1.0${POST-SNAPSHOT}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-servlet</artifactId><version>0.1.0${POST-SNAPSHOT}</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -126,9 +129,6 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 		</dependency>
 		<dependency>
 			<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-registry</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-servlet</artifactId>
 		</dependency>
 	</dependencies>
 </project>
