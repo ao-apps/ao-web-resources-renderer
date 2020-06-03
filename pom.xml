@@ -55,17 +55,30 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 		<url>https://github.com/aoindustries/ao-web-resources-renderer/issues</url>
 	</issueManagement>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId><artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<additionalDependencies>
+						<!-- Javadoc-only -->
+						<additionalDependency>
+							<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-servlet</artifactId><version>0.1.0${POST-SNAPSHOT}</version>
+						</additionalDependency>
+					</additionalDependencies>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<profiles>
 		<profile>
-			<id>release</id>
+			<id>offlineLinks</id><activation><file><exists>src/main/java</exists></file></activation>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId>
 						<dependencies>
-							<dependency>
-								<groupId>com.aoindustries</groupId><artifactId>ao-javadoc-offline</artifactId><version>1.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
-							</dependency>
 							<!-- Javadoc-only -->
 							<dependency>
 								<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-servlet</artifactId><version>0.1.0${POST-SNAPSHOT}</version>
@@ -73,15 +86,9 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 						</dependencies>
 						<executions>
 							<execution>
-								<id>unpack.offlinkLinks</id><phase>generate-sources</phase><goals><goal>unpack</goal></goals>
+								<id>unpack.offlineLinks</id><phase>generate-sources</phase><goals><goal>unpack</goal></goals>
 								<configuration>
-									<silent>true</silent>
 									<artifactItems>
-										<artifactItem>
-											<groupId>com.aoindustries</groupId><artifactId>ao-javadoc-offline</artifactId><version>1.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
-											<includes>**/element-list, **/package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks</outputDirectory>
-										</artifactItem>
 										<!-- Javadoc-only -->
 										<artifactItem>
 											<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-servlet</artifactId><version>0.1.0${POST-SNAPSHOT}</version>
@@ -117,12 +124,6 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-javadoc-plugin</artifactId>
 						<configuration>
-							<additionalDependencies>
-								<!-- Javadoc-only -->
-								<additionalDependency>
-									<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-servlet</artifactId><version>0.1.0${POST-SNAPSHOT}</version>
-								</additionalDependency>
-							</additionalDependencies>
 							<offlineLinks>
 								<offlineLink>
 									<url>${javadoc.link.javase}</url>
