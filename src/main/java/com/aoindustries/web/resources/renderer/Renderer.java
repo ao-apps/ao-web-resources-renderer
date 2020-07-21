@@ -241,13 +241,6 @@ public class Renderer {
 							html.nl();
 							if(indent != null) html.out.write(indent);
 						}
-						@SuppressWarnings("deprecation")
-						String ie = style.getIe();
-						if(ie != null) {
-							html.out.write("<!--[if ");
-							html.out.write(ie);
-							html.out.write('>');
-						}
 						// TODO: Support inline styles
 						String href = style.getUri();
 						html.link(Link.Rel.STYLESHEET)
@@ -269,9 +262,6 @@ public class Renderer {
 							.media(style.getMedia())
 							.disabled(style.isDisabled())
 							.__();
-						if(ie != null) {
-							html.out.write("<![endif]-->");
-						}
 					}
 				}
 				if(!didOne) {
