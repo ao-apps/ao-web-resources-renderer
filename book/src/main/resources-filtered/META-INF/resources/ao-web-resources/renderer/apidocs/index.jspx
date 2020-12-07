@@ -35,7 +35,7 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 		<ao:forward page="index.html" />
 	</c:if>
 	<core:page
-		title="@{documented.name} @{com.aoindustries:ao-web-resources-renderer:pom.version} API Docs"
+		title="@{documented.name} ${ao:getProjectVersion('./', 'com.aoindustries', 'ao-web-resources-renderer', '¿@{project.version}?')} API Docs"
 		shortTitle="API Docs"
 		datePublished="2020-03-02T13:52:51-0600"
 		dateModified="${ao:getLastModified('index.html')}"
