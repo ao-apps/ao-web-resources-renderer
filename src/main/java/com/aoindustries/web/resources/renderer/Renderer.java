@@ -1,6 +1,6 @@
 /*
  * ao-web-resources-renderer - Renders HTML for web resource management.
- * Copyright (C) 2020  AO Industries, Inc.
+ * Copyright (C) 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -22,7 +22,7 @@
  */
 package com.aoindustries.web.resources.renderer;
 
-import com.aoindustries.html.Html;
+import com.aoindustries.html.Document;
 import com.aoindustries.html.Link;
 import com.aoindustries.net.EmptyURIParameters;
 import com.aoindustries.servlet.lastmodified.AddLastModified;
@@ -113,7 +113,7 @@ public class Renderer {
 	 * Combines all the styles from {@link HttpServletRequest} and {@link HttpSession} into a single set,
 	 * then renders the set of link tags.
 	 *
-	 * @param  indent  The indentation used between links, after a {@linkplain Html#nl() newline}.
+	 * @param  indent  The indentation used between links, after a {@linkplain Document#nl() newline}.
 	 *
 	 * @param  registeredActivations  Should the registered activations be applied?
 	 *
@@ -126,7 +126,7 @@ public class Renderer {
 	public void renderStyles(
 		HttpServletRequest request,
 		HttpServletResponse response,
-		Html html,
+		Document document,
 		String indent,
 		boolean registeredActivations,
 		Map<Group.Name,Boolean> activations,
@@ -135,7 +135,7 @@ public class Renderer {
 		if(logger.isLoggable(Level.FINER)) logger.finer("registries = " + registries);
 		if(registries == null) {
 			if(logger.isLoggable(Level.FINER)) logger.finer(NO_REGISTRIES);
-			html.out.write(NO_REGISTRIES);
+			document.out.write(NO_REGISTRIES);
 		} else {
 			// Resolve current activations
 			Set<Group.Name> groups = new HashSet<>();
@@ -158,7 +158,7 @@ public class Renderer {
 				}
 				if(!hasRegistry) {
 					if(logger.isLoggable(Level.FINER)) logger.finer(NO_REGISTRIES);
-					html.out.write(NO_REGISTRIES);
+					document.out.write(NO_REGISTRIES);
 					return;
 				}
 			}
@@ -178,7 +178,7 @@ public class Renderer {
 			if(logger.isLoggable(Level.FINER)) logger.finer("groups = " + groups);
 			if(groups.isEmpty()) {
 				if(logger.isLoggable(Level.FINER)) logger.finer(NO_ACTIVATIONS);
-				html.out.write(NO_ACTIVATIONS);
+				document.out.write(NO_ACTIVATIONS);
 				return;
 			}
 			// Find all the styles for all the activated groups in all registries
@@ -198,14 +198,14 @@ public class Renderer {
 			}
 			if(!hasRegistry) {
 				if(logger.isLoggable(Level.FINER)) logger.finer(NO_REGISTRIES);
-				html.out.write(NO_REGISTRIES);
+				document.out.write(NO_REGISTRIES);
 				return;
 			}
 			// Perform a union of all styles
 			int size = allStyles.size();
 			if(size == 0) {
 				if(logger.isLoggable(Level.FINER)) logger.finer(NO_STYLES);
-				html.out.write(NO_STYLES);
+				document.out.write(NO_STYLES);
 			} else {
 				Styles styles;
 				if(size == 1) {
@@ -238,12 +238,12 @@ public class Renderer {
 						if(!didOne) {
 							didOne = true;
 						} else {
-							html.nl();
-							if(indent != null) html.out.write(indent);
+							document.nl();
+							if(indent != null) document.out.write(indent);
 						}
 						// TODO: Support inline styles
 						String href = style.getUri();
-						html.link(Link.Rel.STYLESHEET)
+						document.link(Link.Rel.STYLESHEET)
 							.href(href == null ? null :
 								LastModifiedUtil.buildURL(
 									servletContext,
@@ -267,10 +267,10 @@ public class Renderer {
 				if(!didOne) {
 					if(!hasStyle) {
 						if(logger.isLoggable(Level.FINER)) logger.finer(NO_STYLES);
-						html.out.write(NO_STYLES);
+						document.out.write(NO_STYLES);
 					} else {
 						if(logger.isLoggable(Level.FINER)) logger.finer(NO_APPLICABLE_STYLES);
-						html.out.write(NO_APPLICABLE_STYLES);
+						document.out.write(NO_APPLICABLE_STYLES);
 					}
 				}
 			}
@@ -278,12 +278,12 @@ public class Renderer {
 	}
 
 	/**
-	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.Html, java.lang.String, boolean, java.util.Map, java.lang.Iterable)
+	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.Document, java.lang.String, boolean, java.util.Map, java.lang.Iterable)
 	 */
 	public void renderStyles(
 		HttpServletRequest request,
 		HttpServletResponse response,
-		Html html,
+		Document document,
 		String indent,
 		boolean registeredActivations,
 		Map<Group.Name,Boolean> activations,
@@ -292,7 +292,7 @@ public class Renderer {
 		renderStyles(
 			request,
 			response,
-			html,
+			document,
 			indent,
 			registeredActivations,
 			activations,
