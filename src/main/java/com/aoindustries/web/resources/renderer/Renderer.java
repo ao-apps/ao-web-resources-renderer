@@ -113,8 +113,6 @@ public class Renderer {
 	 * Combines all the styles from {@link HttpServletRequest} and {@link HttpSession} into a single set,
 	 * then renders the set of link tags.
 	 *
-	 * @param  indent  The indentation used between links, after a {@linkplain Document#nl() newline}.
-	 *
 	 * @param  registeredActivations  Should the registered activations be applied?
 	 *
 	 * @param  activations  Additional activations applied after those configured in the registries.
@@ -127,7 +125,7 @@ public class Renderer {
 		HttpServletRequest request,
 		HttpServletResponse response,
 		Document document,
-		String indent,
+		String unused, // TODO: Deprecate and remove all uses of this
 		boolean registeredActivations,
 		Map<Group.Name,Boolean> activations,
 		Iterable<Registry> registries
@@ -235,12 +233,7 @@ public class Renderer {
 						directionMatches = true;
 					}
 					if(directionMatches) {
-						if(!didOne) {
-							didOne = true;
-						} else {
-							document.nl();
-							if(indent != null) document.out.write(indent);
-						}
+						didOne = true;
 						// TODO: Support inline styles
 						String href = style.getUri();
 						document.link(LINK.Rel.STYLESHEET)
@@ -261,7 +254,7 @@ public class Renderer {
 							)
 							.media(style.getMedia())
 							.disabled(style.isDisabled())
-							.__();
+						.__();
 					}
 				}
 				if(!didOne) {
