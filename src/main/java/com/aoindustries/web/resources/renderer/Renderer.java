@@ -22,7 +22,7 @@
  */
 package com.aoindustries.web.resources.renderer;
 
-import com.aoindustries.html.Document;
+import com.aoindustries.html.AnyDocument;
 import com.aoindustries.html.LINK;
 import com.aoindustries.net.EmptyURIParameters;
 import com.aoindustries.servlet.lastmodified.AddLastModified;
@@ -124,10 +124,10 @@ public class Renderer {
 	public void renderStyles(
 		HttpServletRequest request,
 		HttpServletResponse response,
-		Document document,
+		AnyDocument<?> document,
 		String unused, // TODO: Deprecate and remove all uses of this
 		boolean registeredActivations,
-		Map<Group.Name,Boolean> activations,
+		Map<Group.Name, Boolean> activations,
 		Iterable<Registry> registries
 	) throws IOException {
 		if(logger.isLoggable(Level.FINER)) logger.finer("registries = " + registries);
@@ -142,7 +142,7 @@ public class Renderer {
 				for(Registry registry : registries) {
 					if(registry != null) {
 						hasRegistry = true;
-						for(Map.Entry<Group.Name,Boolean> entry : registry.getActivations().entrySet()) {
+						for(Map.Entry<Group.Name, Boolean> entry : registry.getActivations().entrySet()) {
 							Group.Name name = entry.getKey();
 							assert entry.getValue() != null : "null activations are removed, not set as an entry";
 							boolean activated = entry.getValue();
@@ -161,7 +161,7 @@ public class Renderer {
 				}
 			}
 			if(activations != null) {
-				for(Map.Entry<Group.Name,Boolean> entry : activations.entrySet()) {
+				for(Map.Entry<Group.Name, Boolean> entry : activations.entrySet()) {
 					Group.Name name = entry.getKey();
 					Boolean activated = entry.getValue();
 					if(activated != null) {
@@ -271,15 +271,15 @@ public class Renderer {
 	}
 
 	/**
-	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.Document, java.lang.String, boolean, java.util.Map, java.lang.Iterable)
+	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.AnyDocument, java.lang.String, boolean, java.util.Map, java.lang.Iterable)
 	 */
 	public void renderStyles(
 		HttpServletRequest request,
 		HttpServletResponse response,
-		Document document,
+		AnyDocument<?> document,
 		String indent,
 		boolean registeredActivations,
-		Map<Group.Name,Boolean> activations,
+		Map<Group.Name, Boolean> activations,
 		Registry ... registries
 	) throws IOException {
 		renderStyles(
