@@ -22,8 +22,8 @@
  */
 package com.aoindustries.web.resources.renderer;
 
-import com.aoindustries.html.AnyDocument;
-import com.aoindustries.html.LINK;
+import com.aoindustries.html.any.AnyDocument;
+import com.aoindustries.html.any.AnyLINK;
 import com.aoindustries.net.EmptyURIParameters;
 import com.aoindustries.servlet.lastmodified.AddLastModified;
 import com.aoindustries.servlet.lastmodified.LastModifiedUtil;
@@ -236,7 +236,7 @@ public class Renderer {
 						didOne = true;
 						// TODO: Support inline styles
 						String href = style.getUri();
-						document.link(LINK.Rel.STYLESHEET)
+						document.link(AnyLINK.Rel.STYLESHEET)
 							.href(href == null ? null :
 								LastModifiedUtil.buildURL(
 									servletContext,
