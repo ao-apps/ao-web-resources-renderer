@@ -22,8 +22,8 @@
  */
 package com.aoindustries.web.resources.renderer;
 
-import com.aoindustries.html.any.AnyDocument;
 import com.aoindustries.html.any.AnyLINK;
+import com.aoindustries.html.any.AnyUnion_Metadata_Phrasing;
 import com.aoindustries.net.EmptyURIParameters;
 import com.aoindustries.servlet.lastmodified.AddLastModified;
 import com.aoindustries.servlet.lastmodified.LastModifiedUtil;
@@ -124,7 +124,7 @@ public class Renderer {
 	public void renderStyles(
 		HttpServletRequest request,
 		HttpServletResponse response,
-		AnyDocument<?> document,
+		AnyUnion_Metadata_Phrasing<?, ?> content,
 		String unused, // TODO: Deprecate and remove all uses of this
 		boolean registeredActivations,
 		Map<Group.Name, Boolean> activations,
@@ -133,7 +133,7 @@ public class Renderer {
 		if(logger.isLoggable(Level.FINER)) logger.finer("registries = " + registries);
 		if(registries == null) {
 			if(logger.isLoggable(Level.FINER)) logger.finer(NO_REGISTRIES);
-			document.out.write(NO_REGISTRIES);
+			content.unsafe(NO_REGISTRIES); // TODO: comment method
 		} else {
 			// Resolve current activations
 			Set<Group.Name> groups = new HashSet<>();
@@ -156,7 +156,7 @@ public class Renderer {
 				}
 				if(!hasRegistry) {
 					if(logger.isLoggable(Level.FINER)) logger.finer(NO_REGISTRIES);
-					document.out.write(NO_REGISTRIES);
+					content.unsafe(NO_REGISTRIES); // TODO: comment method
 					return;
 				}
 			}
@@ -176,7 +176,7 @@ public class Renderer {
 			if(logger.isLoggable(Level.FINER)) logger.finer("groups = " + groups);
 			if(groups.isEmpty()) {
 				if(logger.isLoggable(Level.FINER)) logger.finer(NO_ACTIVATIONS);
-				document.out.write(NO_ACTIVATIONS);
+				content.unsafe(NO_ACTIVATIONS); // TODO: comment method
 				return;
 			}
 			// Find all the styles for all the activated groups in all registries
@@ -196,14 +196,14 @@ public class Renderer {
 			}
 			if(!hasRegistry) {
 				if(logger.isLoggable(Level.FINER)) logger.finer(NO_REGISTRIES);
-				document.out.write(NO_REGISTRIES);
+				content.unsafe(NO_REGISTRIES); // TODO: comment method
 				return;
 			}
 			// Perform a union of all styles
 			int size = allStyles.size();
 			if(size == 0) {
 				if(logger.isLoggable(Level.FINER)) logger.finer(NO_STYLES);
-				document.out.write(NO_STYLES);
+				content.unsafe(NO_STYLES); // TODO: comment method
 			} else {
 				Styles styles;
 				if(size == 1) {
@@ -236,7 +236,7 @@ public class Renderer {
 						didOne = true;
 						// TODO: Support inline styles
 						String href = style.getUri();
-						document.link(AnyLINK.Rel.STYLESHEET)
+						content.link(AnyLINK.Rel.STYLESHEET)
 							.href(href == null ? null :
 								LastModifiedUtil.buildURL(
 									servletContext,
@@ -260,10 +260,10 @@ public class Renderer {
 				if(!didOne) {
 					if(!hasStyle) {
 						if(logger.isLoggable(Level.FINER)) logger.finer(NO_STYLES);
-						document.out.write(NO_STYLES);
+						content.unsafe(NO_STYLES); // TODO: comment method
 					} else {
 						if(logger.isLoggable(Level.FINER)) logger.finer(NO_APPLICABLE_STYLES);
-						document.out.write(NO_APPLICABLE_STYLES);
+						content.unsafe(NO_APPLICABLE_STYLES); // TODO: comment method
 					}
 				}
 			}
@@ -271,13 +271,13 @@ public class Renderer {
 	}
 
 	/**
-	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.AnyDocument, java.lang.String, boolean, java.util.Map, java.lang.Iterable)
+	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.any.AnyUnion_Metadata_Phrasing, java.lang.String, boolean, java.util.Map, java.lang.Iterable)
 	 */
 	public void renderStyles(
 		HttpServletRequest request,
 		HttpServletResponse response,
-		AnyDocument<?> document,
-		String indent,
+		AnyUnion_Metadata_Phrasing<?, ?> content,
+		String unused,
 		boolean registeredActivations,
 		Map<Group.Name, Boolean> activations,
 		Registry ... registries
@@ -285,8 +285,8 @@ public class Renderer {
 		renderStyles(
 			request,
 			response,
-			document,
-			indent,
+			content,
+			unused,
 			registeredActivations,
 			activations,
 			(registries == null) ? null : Arrays.asList(registries)
