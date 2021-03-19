@@ -29,7 +29,7 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 		<relativePath>../../../ao-oss-parent/pom.xml</relativePath>
 	</parent>
 
-	<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-renderer-book</artifactId><version>0.3.0</version>
+	<groupId>com.aoindustries</groupId><artifactId>ao-web-resources-renderer-book</artifactId><version>0.3.0-POST-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
 	<properties>
@@ -74,7 +74,7 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 		<connection>scm:git:git://github.com/aoindustries/ao-web-resources-renderer.git</connection>
 		<developerConnection>scm:git:git@github.com:aoindustries/ao-web-resources-renderer.git</developerConnection>
 		<url>https://github.com/aoindustries/ao-web-resources-renderer</url>
-		<tag>ao-web-resources-renderer-book-0.3.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>
