@@ -125,7 +125,6 @@ public class Renderer {
 		HttpServletRequest request,
 		HttpServletResponse response,
 		AnyUnion_Metadata_Phrasing<?, ?> content,
-		String unused, // TODO: Deprecate and remove all uses of this
 		boolean registeredActivations,
 		Map<Group.Name, Boolean> activations,
 		Iterable<Registry> registries
@@ -271,13 +270,12 @@ public class Renderer {
 	}
 
 	/**
-	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.any.AnyUnion_Metadata_Phrasing, java.lang.String, boolean, java.util.Map, java.lang.Iterable)
+	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.any.AnyUnion_Metadata_Phrasing, boolean, java.util.Map, java.lang.Iterable)
 	 */
 	public void renderStyles(
 		HttpServletRequest request,
 		HttpServletResponse response,
 		AnyUnion_Metadata_Phrasing<?, ?> content,
-		String unused,
 		boolean registeredActivations,
 		Map<Group.Name, Boolean> activations,
 		Registry ... registries
@@ -286,7 +284,6 @@ public class Renderer {
 			request,
 			response,
 			content,
-			unused,
 			registeredActivations,
 			activations,
 			(registries == null) ? null : Arrays.asList(registries)
