@@ -20,17 +20,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.web.resources.renderer;
+package com.aoapps.web.resources.renderer;
 
-import com.aoindustries.html.any.AnyLINK;
-import com.aoindustries.html.any.AnyUnion_Metadata_Phrasing;
-import com.aoindustries.net.EmptyURIParameters;
-import com.aoindustries.servlet.lastmodified.AddLastModified;
-import com.aoindustries.servlet.lastmodified.LastModifiedUtil;
-import com.aoindustries.web.resources.registry.Group;
-import com.aoindustries.web.resources.registry.Registry;
-import com.aoindustries.web.resources.registry.Style;
-import com.aoindustries.web.resources.registry.Styles;
+import com.aoapps.html.any.AnyLINK;
+import com.aoapps.html.any.AnyUnion_Metadata_Phrasing;
+import com.aoapps.net.EmptyURIParameters;
+import com.aoapps.servlet.lastmodified.AddLastModified;
+import com.aoapps.servlet.lastmodified.LastModifiedUtil;
+import com.aoapps.web.resources.registry.Group;
+import com.aoapps.web.resources.registry.Registry;
+import com.aoapps.web.resources.registry.Style;
+import com.aoapps.web.resources.registry.Styles;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +55,7 @@ import javax.servlet.http.HttpSession;
  * However, it provides a hook for optimizers to affect what it rendered.
  * </p>
  * <p>
- * This is placed in a distinct project from {@link com.aoindustries.web.resources.servlet.RegistryEE} because it
+ * This is placed in a distinct project from {@link com.aoapps.web.resources.servlet.RegistryEE} because it
  * adds several dependencies that are not required by projects that simply
  * register themselves.  This choice is consistent with our "micro project"
  * principle.
@@ -270,7 +270,7 @@ public class Renderer {
 	}
 
 	/**
-	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoindustries.html.any.AnyUnion_Metadata_Phrasing, boolean, java.util.Map, java.lang.Iterable)
+	 * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyUnion_Metadata_Phrasing, boolean, java.util.Map, java.lang.Iterable)
 	 */
 	public void renderStyles(
 		HttpServletRequest request,
