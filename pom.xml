@@ -105,12 +105,6 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 								<id>unpack.offlineLinks</id><phase>generate-sources</phase><goals><goal>unpack</goal></goals>
 								<configuration>
 									<artifactItems>
-										<!-- Javadoc-only -->
-										<artifactItem>
-											<groupId>com.aoapps</groupId><artifactId>ao-web-resources-servlet</artifactId><classifier>javadoc</classifier>
-											<includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-web-resources-servlet</outputDirectory>
-										</artifactItem>
 										<!-- Direct -->
 										<artifactItem>
 											<groupId>com.aoapps</groupId><artifactId>ao-fluent-html-any</artifactId><classifier>javadoc</classifier>
@@ -132,6 +126,11 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 											<includes>element-list, package-list</includes>
 											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-web-resources-registry</outputDirectory>
 										</artifactItem>
+										<artifactItem>
+											<groupId>com.aoapps</groupId><artifactId>ao-web-resources-servlet</artifactId><classifier>javadoc</classifier>
+											<includes>element-list, package-list</includes>
+											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-web-resources-servlet</outputDirectory>
+										</artifactItem>
 										<!-- ao-javadoc-offline: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId> -->
 									</artifactItems>
 								</configuration>
@@ -142,11 +141,6 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-javadoc-plugin</artifactId>
 						<configuration>
 							<offlineLinks>
-								<!-- Javadoc-only -->
-								<offlineLink>
-									<url>https://oss.aoapps.com/web-resources/servlet/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-web-resources-servlet</location>
-								</offlineLink>
 								<!-- Direct -->
 								<offlineLink>
 									<url>https://oss.aoapps.com/fluent-html/any/apidocs/</url>
@@ -163,6 +157,10 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 								<offlineLink>
 									<url>https://oss.aoapps.com/web-resources/registry/apidocs/</url>
 									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-web-resources-registry</location>
+								</offlineLink>
+								<offlineLink>
+									<url>https://oss.aoapps.com/web-resources/servlet/apidocs/</url>
+									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-web-resources-servlet</location>
 								</offlineLink>
 								<!-- Java EE: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId> -->
 								<!-- Java SE -->
@@ -205,11 +203,6 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- Javadoc-only -->
-			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-web-resources-servlet</artifactId><version>0.4.0${POST-SNAPSHOT}</version>
-				<exclusions><exclusion><groupId>*</groupId><artifactId>*</artifactId></exclusion></exclusions>
-			</dependency>
 			<!-- Direct -->
 			<dependency>
 				<groupId>com.aoapps</groupId><artifactId>ao-fluent-html-any</artifactId><version>0.5.0${POST-SNAPSHOT}</version>
@@ -222,6 +215,11 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 			</dependency>
 			<dependency>
 				<groupId>com.aoapps</groupId><artifactId>ao-web-resources-registry</artifactId><version>0.4.0${POST-SNAPSHOT}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.aoapps</groupId><artifactId>ao-web-resources-servlet</artifactId><version>0.4.0${POST-SNAPSHOT}</version>
+				<!-- Javadoc-only -->
+				<exclusions><exclusion><groupId>*</groupId><artifactId>*</artifactId></exclusion></exclusions>
 			</dependency>
 			<!-- javaee-web-api-bom: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId> -->
 			<!-- Transitive -->
@@ -259,11 +257,6 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- Javadoc-only -->
-		<dependency>
-			<groupId>com.aoapps</groupId><artifactId>ao-web-resources-servlet</artifactId>
-			<optional>true</optional>
-		</dependency>
 		<!-- Direct -->
  		<dependency>
 			<groupId>com.aoapps</groupId><artifactId>ao-fluent-html-any</artifactId>
@@ -276,6 +269,11 @@ along with ao-web-resources-renderer.  If not, see <http://www.gnu.org/licenses 
 		</dependency>
 		<dependency>
 			<groupId>com.aoapps</groupId><artifactId>ao-web-resources-registry</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.aoapps</groupId><artifactId>ao-web-resources-servlet</artifactId>
+			<!-- Javadoc-only -->
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId>

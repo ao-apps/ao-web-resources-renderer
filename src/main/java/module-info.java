@@ -22,13 +22,12 @@
  */
 module com.aoapps.web.resources.renderer {
 	exports com.aoapps.web.resources.renderer;
-	// Javadoc-only
-	requires static com.aoapps.web.resources.servlet; // <groupId>com.aoapps</groupId><artifactId>ao-web-resources-servlet</artifactId>
 	// Direct
 	requires com.aoapps.html.any; // <groupId>com.aoapps</groupId><artifactId>ao-fluent-html-any</artifactId>
 	requires com.aoapps.net.types; // <groupId>com.aoapps</groupId><artifactId>ao-net-types</artifactId>
 	requires com.aoapps.servlet.lastmodified; // <groupId>com.aoapps</groupId><artifactId>ao-servlet-last-modified</artifactId>
 	requires com.aoapps.web.resources.registry; // <groupId>com.aoapps</groupId><artifactId>ao-web-resources-registry</artifactId>
+	requires static com.aoapps.web.resources.servlet; // <groupId>com.aoapps</groupId><artifactId>ao-web-resources-servlet</artifactId>
 	requires javax.servlet.api; // <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId>
 	// Java SE
 	requires java.logging;
