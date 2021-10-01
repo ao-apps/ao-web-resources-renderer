@@ -25,6 +25,7 @@ package com.aoapps.web.resources.renderer;
 import com.aoapps.html.any.AnyLINK;
 import com.aoapps.html.any.AnyUnion_Metadata_Phrasing;
 import com.aoapps.net.EmptyURIParameters;
+import com.aoapps.servlet.attribute.ScopeEE;
 import com.aoapps.servlet.lastmodified.AddLastModified;
 import com.aoapps.servlet.lastmodified.LastModifiedUtil;
 import com.aoapps.web.resources.registry.Group;
@@ -65,7 +66,8 @@ public class Renderer {
 
 	private static final Logger logger = Logger.getLogger(Renderer.class.getName());
 
-	private static final String APPLICATION_ATTRIBUTE = Renderer.class.getName();
+	private static final ScopeEE.Application.Attribute<Renderer> APPLICATION_ATTRIBUTE =
+		ScopeEE.APPLICATION.attribute(Renderer.class.getName());
 
 	/**
 	 * Comments included when no styles written.
@@ -94,12 +96,7 @@ public class Renderer {
 	 * Gets the {@link Renderer web resource renderer} for the given {@linkplain ServletContext servlet context}.
 	 */
 	public static Renderer get(ServletContext servletContext) {
-		Renderer renderer = (Renderer)servletContext.getAttribute(APPLICATION_ATTRIBUTE);
-		if(renderer == null) {
-			renderer = new Renderer(servletContext);
-			servletContext.setAttribute(APPLICATION_ATTRIBUTE, renderer);
-		}
-		return renderer;
+		return APPLICATION_ATTRIBUTE.context(servletContext).computeIfAbsent(__ -> new Renderer(servletContext));
 	}
 
 	private final ServletContext servletContext;
@@ -241,7 +238,7 @@ public class Renderer {
 									servletContext,
 									request,
 									response,
-									"/", // TODO: contextPath here to handle ../ breaking out of application? 
+									"/", // TODO: contextPath here to handle ../ breaking out of application?
 										 // TODO: All buildUrl add contextPath to servlet path to support ../ outside of application generally?
 										 // TODO: / is prefixed with contextPath, so due to lack of normalization: /../ would effectively be relative to the current contextPath
 									href,
