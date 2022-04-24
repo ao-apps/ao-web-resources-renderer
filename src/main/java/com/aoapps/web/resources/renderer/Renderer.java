@@ -68,16 +68,16 @@ public class Renderer {
   private static final Logger logger = Logger.getLogger(Renderer.class.getName());
 
   private static final ScopeEE.Application.Attribute<Renderer> APPLICATION_ATTRIBUTE =
-    ScopeEE.APPLICATION.attribute(Renderer.class.getName());
+      ScopeEE.APPLICATION.attribute(Renderer.class.getName());
 
   /**
    * Comments included when no styles written.
    */
   private static final String
-    NO_REGISTRIES        = "<!-- ao-web-resources-renderer: no registries -->",
-    NO_ACTIVATIONS       = "<!-- ao-web-resources-renderer: no activations -->",
-    NO_STYLES            = "<!-- ao-web-resources-renderer: no styles -->",
-    NO_APPLICABLE_STYLES = "<!-- ao-web-resources-renderer: no applicable styles -->";
+      NO_REGISTRIES        = "<!-- ao-web-resources-renderer: no registries -->",
+      NO_ACTIVATIONS       = "<!-- ao-web-resources-renderer: no activations -->",
+      NO_STYLES            = "<!-- ao-web-resources-renderer: no styles -->",
+      NO_APPLICABLE_STYLES = "<!-- ao-web-resources-renderer: no applicable styles -->";
 
   @WebListener
   public static class Initializer implements ServletContextListener {
@@ -101,6 +101,7 @@ public class Renderer {
   }
 
   private final ServletContext servletContext;
+
   private Renderer(ServletContext servletContext) {
     this.servletContext = servletContext;
   }
@@ -120,12 +121,12 @@ public class Renderer {
    */
   // TODO: Support included/inherited groups
   public void renderStyles(
-    HttpServletRequest request,
-    HttpServletResponse response,
-    AnyUnion_Metadata_Phrasing<?, ?> content,
-    boolean registeredActivations,
-    Map<Group.Name, Boolean> activations,
-    Iterable<Registry> registries
+      HttpServletRequest request,
+      HttpServletResponse response,
+      AnyUnion_Metadata_Phrasing<?, ?> content,
+      boolean registeredActivations,
+      Map<Group.Name, Boolean> activations,
+      Iterable<Registry> registries
   ) throws IOException {
     if (logger.isLoggable(Level.FINER)) {
       logger.finer("registries = " + registries);
@@ -256,24 +257,24 @@ public class Renderer {
             // TODO: Support inline styles
             String href = style.getUri();
             content.link(AnyLINK.Rel.STYLESHEET)
-              .href(href == null ? null :
-                LastModifiedUtil.buildURL(
-                  servletContext,
-                  request,
-                  response,
-                  "/", // TODO: contextPath here to handle ../ breaking out of application?
-                     // TODO: All buildUrl add contextPath to servlet path to support ../ outside of application generally?
-                     // TODO: / is prefixed with contextPath, so due to lack of normalization: /../ would effectively be relative to the current contextPath
-                  href,
-                  EmptyURIParameters.getInstance(),
-                  AddLastModified.AUTO,
-                  false,
-                  false
+                .href(href == null ? null :
+                    LastModifiedUtil.buildURL(
+                        servletContext,
+                        request,
+                        response,
+                        "/", // TODO: contextPath here to handle ../ breaking out of application?
+                        // TODO: All buildUrl add contextPath to servlet path to support ../ outside of application generally?
+                        // TODO: / is prefixed with contextPath, so due to lack of normalization: /../ would effectively be relative to the current contextPath
+                        href,
+                        EmptyURIParameters.getInstance(),
+                        AddLastModified.AUTO,
+                        false,
+                        false
+                    )
                 )
-              )
-              .media(style.getMedia())
-              .disabled(style.isDisabled())
-            .__();
+                .media(style.getMedia())
+                .disabled(style.isDisabled())
+                .__();
           }
         }
         if (!didOne) {
@@ -297,20 +298,20 @@ public class Renderer {
    * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyUnion_Metadata_Phrasing, boolean, java.util.Map, java.lang.Iterable)
    */
   public void renderStyles(
-    HttpServletRequest request,
-    HttpServletResponse response,
-    AnyUnion_Metadata_Phrasing<?, ?> content,
-    boolean registeredActivations,
-    Map<Group.Name, Boolean> activations,
-    Registry ... registries
+      HttpServletRequest request,
+      HttpServletResponse response,
+      AnyUnion_Metadata_Phrasing<?, ?> content,
+      boolean registeredActivations,
+      Map<Group.Name, Boolean> activations,
+      Registry ... registries
   ) throws IOException {
     renderStyles(
-      request,
-      response,
-      content,
-      registeredActivations,
-      activations,
-      (registries == null) ? null : Arrays.asList(registries)
+        request,
+        response,
+        content,
+        registeredActivations,
+        activations,
+        (registries == null) ? null : Arrays.asList(registries)
     );
   }
 
