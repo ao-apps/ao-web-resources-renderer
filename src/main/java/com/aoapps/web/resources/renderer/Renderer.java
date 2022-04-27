@@ -248,7 +248,7 @@ public class Renderer {
             if (responseDirection == null) {
               responseDirection = Style.Direction.getDirection(response.getLocale());
             }
-            directionMatches = (direction == responseDirection);
+            directionMatches = direction == responseDirection;
           } else {
             directionMatches = true;
           }
