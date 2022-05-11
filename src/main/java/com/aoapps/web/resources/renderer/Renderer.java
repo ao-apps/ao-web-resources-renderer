@@ -79,7 +79,10 @@ public class Renderer {
       NO_STYLES            = "<!-- ao-web-resources-renderer: no styles -->",
       NO_APPLICABLE_STYLES = "<!-- ao-web-resources-renderer: no applicable styles -->";
 
-  @WebListener
+  /**
+   * Initializes the {@link Renderer} during {@linkplain ServletContextListener application start-up}.
+   */
+  @WebListener("Initializes the Renderer during application start-up.")
   public static class Initializer implements ServletContextListener {
 
     @Override
@@ -97,7 +100,7 @@ public class Renderer {
    * Gets the {@link Renderer web resource renderer} for the given {@linkplain ServletContext servlet context}.
    */
   public static Renderer get(ServletContext servletContext) {
-    return APPLICATION_ATTRIBUTE.context(servletContext).computeIfAbsent(__ -> new Renderer(servletContext));
+    return APPLICATION_ATTRIBUTE.context(servletContext).computeIfAbsent(name -> new Renderer(servletContext));
   }
 
   private final ServletContext servletContext;
@@ -295,6 +298,16 @@ public class Renderer {
   }
 
   /**
+   * Combines all the styles from {@link HttpServletRequest} and {@link HttpSession} into a single set,
+   * then renders the set of link tags.
+   *
+   * @param  registeredActivations  Should the registered activations be applied?
+   *
+   * @param  activations  Additional activations applied after those configured in the registries.
+   *
+   * @param  registries  Iterated up to twice: first to determine group activations,
+   *                     then to union the styles from all activated groups.
+   *
    * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyUnion_Metadata_Phrasing, boolean, java.util.Map, java.lang.Iterable)
    */
   public void renderStyles(
