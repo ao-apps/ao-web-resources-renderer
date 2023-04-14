@@ -23,7 +23,7 @@ Renders HTML for web resource management.
 * [Project Home](https://oss.aoapps.com/web-resources/renderer/)
 * [Changelog](https://oss.aoapps.com/web-resources/renderer/changelog)
 * [API Docs](https://oss.aoapps.com/web-resources/renderer/apidocs/)
-* [Maven Central Repository](https://central.sonatype.com/search?namespace=com.aoapps&q=a%3Aao-web-resources-renderer)
+* [Maven Central Repository](https://central.sonatype.com/artifact/com.aoapps/ao-web-resources-renderer)
 * [GitHub](https://github.com/ao-apps/ao-web-resources-renderer)
 
 ## Contact Us
