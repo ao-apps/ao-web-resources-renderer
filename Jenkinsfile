@@ -29,6 +29,7 @@ def upstreamProjects = [
 
   // Direct
   '../fluent-html-any', // <groupId>com.aoapps</groupId><artifactId>ao-fluent-html-any</artifactId>
+  '../lang', // <groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
   '../net-types', // <groupId>com.aoapps</groupId><artifactId>ao-net-types</artifactId>
   '../servlet-last-modified', // <groupId>com.aoapps</groupId><artifactId>ao-servlet-last-modified</artifactId>
   '../servlet-util', // <groupId>com.aoapps</groupId><artifactId>ao-servlet-util</artifactId>
