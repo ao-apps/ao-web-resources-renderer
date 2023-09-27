@@ -37,7 +37,7 @@ along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses
     shortTitle="Changelog"
     tocLevels="1"
     datePublished="2020-03-02T13:52:51-06:00"
-    dateModified="2021-12-27T18:21:23-06:00"
+    dateModified="2023-09-26T19:00:16Z"
   >
     <c:set var="latestRelease" value="0.5.0" />
     <c:if test="${
@@ -52,7 +52,12 @@ along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses
         artifactId="@{documented.artifactId}"
         repository="@{nexusUrl}content/repositories/snapshots/"
         scmUrl="@{project.scm.url}"
-      />
+      >
+        <ul>
+          <li>Implemented script rendering with script position.</li>
+          <li>Styles have crossorigin.</li>
+        </ul>
+      </changelog:release>
     </c:if>
 
     <changelog:release
