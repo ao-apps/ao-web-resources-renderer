@@ -172,6 +172,11 @@ along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses
                       <outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-web-resources-servlet</outputDirectory>
                     </artifactItem>
                     <!-- ao-javadoc-offline: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId><classifier>javadoc</classifier> -->
+                    <artifactItem>
+                      <groupId>com.github.spotbugs</groupId><artifactId>spotbugs-annotations</artifactId><classifier>javadoc</classifier>
+                      <includes>element-list, package-list</includes>
+                      <outputDirectory>${project.build.directory}/offlineLinks/com.github.spotbugs/spotbugs-annotations</outputDirectory>
+                    </artifactItem>
                   </artifactItems>
                 </configuration>
               </execution>
@@ -211,6 +216,10 @@ along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses
                   <location>${project.build.directory}/offlineLinks/com.aoapps/ao-web-resources-servlet</location>
                 </offlineLink>
                 <!-- ao-javadoc-offline: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId><classifier>javadoc</classifier> -->
+                <offlineLink>
+                  <url>https://javadoc.io/doc/com.github.spotbugs/spotbugs-annotations/${com.github.spotbugs:spotbugs-annotations:jar.version}/</url>
+                  <location>${project.build.directory}/offlineLinks/com.github.spotbugs/spotbugs-annotations</location>
+                </offlineLink>
               </offlineLinks>
             </configuration>
           </plugin>
@@ -291,6 +300,9 @@ along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses
         <groupId>com.aoapps</groupId><artifactId>ao-web-resources-servlet</artifactId><version>0.5.0${POST-SNAPSHOT}</version>
       </dependency>
       <!-- javaee-web-api-bom: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId> -->
+      <dependency>
+        <groupId>com.github.spotbugs</groupId><artifactId>spotbugs-annotations</artifactId><version>4.8.0</version>
+      </dependency>
       <!-- Transitive -->
       <dependency>
         <groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId><version>3.0.0${POST-SNAPSHOT}</version>
@@ -345,6 +357,10 @@ along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.spotbugs</groupId><artifactId>spotbugs-annotations</artifactId>
+      <optional>true</optional>
     </dependency>
   </dependencies>
 </project>

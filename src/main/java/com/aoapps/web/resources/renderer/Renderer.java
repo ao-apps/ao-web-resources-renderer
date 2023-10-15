@@ -38,6 +38,7 @@ import com.aoapps.web.resources.registry.Script;
 import com.aoapps.web.resources.registry.Scripts;
 import com.aoapps.web.resources.registry.Style;
 import com.aoapps.web.resources.registry.Styles;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +69,7 @@ import javax.servlet.http.HttpSession;
  * principle.
  * </p>
  */
+@SuppressFBWarnings("PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES")
 public class Renderer {
 
   private static final Logger logger = Logger.getLogger(Renderer.class.getName());
