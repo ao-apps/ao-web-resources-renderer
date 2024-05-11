@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 ao-web-resources-renderer - Renders HTML for web resource management.
-Copyright (C) 2020, 2021, 2022, 2023  AO Industries, Inc.
+Copyright (C) 2020, 2021, 2022, 2023, 2024  AO Industries, Inc.
     support@aoindustries.com
     7262 Bull Pen Cir
     Mobile, AL 36695
@@ -37,9 +37,9 @@ along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses
     shortTitle="Changelog"
     tocLevels="1"
     datePublished="2020-03-02T13:52:51-06:00"
-    dateModified="2023-09-26T19:00:16Z"
+    dateModified="2024-05-11T17:17:17Z"
   >
-    <c:set var="latestRelease" value="0.5.0" />
+    <c:set var="latestRelease" value="0.6.0" />
     <c:if test="${
       fn:endsWith('@{project.version}', '-SNAPSHOT')
       and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')
@@ -52,13 +52,22 @@ along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses
         artifactId="@{documented.artifactId}"
         repository="@{nexusUrl}content/repositories/snapshots/"
         scmUrl="@{project.scm.url}"
-      >
-        <ul>
-          <li>Implemented script rendering with script position.</li>
-          <li>Styles have crossorigin.</li>
-        </ul>
-      </changelog:release>
+      />
     </c:if>
+
+    <changelog:release
+      projectName="@{documented.name}"
+      version="0.6.0"
+      datePublished="2024-05-11T17:17:17Z"
+      groupId="@{project.groupId}"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li>Implemented script rendering with script position.</li>
+        <li>Styles have crossorigin.</li>
+      </ul>
+    </changelog:release>
 
     <changelog:release
       projectName="@{documented.name}"
