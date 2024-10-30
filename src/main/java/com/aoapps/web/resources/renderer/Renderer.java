@@ -1,6 +1,6 @@
 /*
  * ao-web-resources-renderer - Renders HTML for web resource management.
- * Copyright (C) 2020, 2021, 2022, 2023  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2023, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -58,16 +58,14 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Renders the HTML output for web resource management.
- * <p>
- * This provides a basic implementation without optimization.
- * However, it provides a hook for optimizers to affect what it rendered.
- * </p>
- * <p>
- * This is placed in a distinct project from {@link com.aoapps.web.resources.servlet.RegistryEE} because it
+ *
+ * <p>This provides a basic implementation without optimization.
+ * However, it provides a hook for optimizers to affect what it rendered.</p>
+ *
+ * <p>This is placed in a distinct project from {@link com.aoapps.web.resources.servlet.RegistryEE} because it
  * adds several dependencies that are not required by projects that simply
  * register themselves.  This choice is consistent with our "micro project"
- * principle.
- * </p>
+ * principle.</p>
  */
 @SuppressFBWarnings("PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES")
 public class Renderer {
