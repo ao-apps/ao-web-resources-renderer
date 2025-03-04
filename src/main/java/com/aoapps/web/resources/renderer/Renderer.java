@@ -1,6 +1,6 @@
 /*
  * ao-web-resources-renderer - Renders HTML for web resource management.
- * Copyright (C) 2020, 2021, 2022, 2023, 2024  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2023, 2024, 2025  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -38,7 +38,6 @@ import com.aoapps.web.resources.registry.Script;
 import com.aoapps.web.resources.registry.Scripts;
 import com.aoapps.web.resources.registry.Style;
 import com.aoapps.web.resources.registry.Styles;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +66,6 @@ import javax.servlet.http.HttpSession;
  * register themselves.  This choice is consistent with our "micro project"
  * principle.</p>
  */
-@SuppressFBWarnings("PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES")
 public class Renderer {
 
   private static final Logger logger = Logger.getLogger(Renderer.class.getName());
