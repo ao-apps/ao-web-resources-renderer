@@ -340,7 +340,7 @@ public class Renderer {
       AnyUnion_Metadata_Phrasing<?, ?> content,
       boolean registeredActivations,
       Map<Group.Name, Boolean> activations,
-      Registry ... registries
+      Registry... registries
   ) throws IOException {
     renderStyles(
         request,
@@ -494,7 +494,7 @@ public class Renderer {
       boolean registeredActivations,
       Map<Group.Name, Boolean> activations,
       Script.Position position,
-      Registry ... registries
+      Registry... registries
   ) throws IOException {
     renderScripts(
         request,
