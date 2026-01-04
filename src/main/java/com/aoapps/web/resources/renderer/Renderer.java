@@ -1,6 +1,6 @@
 /*
  * ao-web-resources-renderer - Renders HTML for web resource management.
- * Copyright (C) 2020, 2021, 2022, 2023, 2024, 2025  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2023, 2024, 2025, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -38,6 +38,13 @@ import com.aoapps.web.resources.registry.Script;
 import com.aoapps.web.resources.registry.Scripts;
 import com.aoapps.web.resources.registry.Style;
 import com.aoapps.web.resources.registry.Styles;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,13 +54,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Renders the HTML output for web resource management.
@@ -332,7 +332,7 @@ public class Renderer {
    * @param  registries  Iterated up to twice: first to determine group activations,
    *                     then to union the styles from all activated groups.
    *
-   * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyUnion_Metadata_Phrasing, boolean, java.util.Map, java.lang.Iterable)
+   * @see  #renderStyles(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyUnion_Metadata_Phrasing, boolean, java.util.Map, java.lang.Iterable)
    */
   public void renderStyles(
       HttpServletRequest request,
@@ -485,7 +485,7 @@ public class Renderer {
    * @param  registries  Iterated up to twice: first to determine group activations,
    *                     then to union the scripts from all activated groups.
    *
-   * @see  #renderScripts(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyScriptSupportingContent, boolean, java.util.Map, com.aoapps.web.resources.registry.Script.Position, java.lang.Iterable)
+   * @see  #renderScripts(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyScriptSupportingContent, boolean, java.util.Map, com.aoapps.web.resources.registry.Script.Position, java.lang.Iterable)
    */
   public void renderScripts(
       HttpServletRequest request,
