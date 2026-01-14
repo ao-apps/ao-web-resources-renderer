@@ -114,10 +114,10 @@ along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses
       <plugin>
         <groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId>
         <configuration>
-          <ignoredDependencies>
-            <!-- No "module-info.java" in some release builds -->
+          <usedDependencies>
+            <!-- Javadoc-only -->
             <dependency>com.aoapps:ao-web-resources-servlet</dependency>
-          </ignoredDependencies>
+          </usedDependencies>
         </configuration>
       </plugin>
     </plugins>
