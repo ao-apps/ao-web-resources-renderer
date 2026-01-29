@@ -332,7 +332,7 @@ public class Renderer {
    * @param  registries  Iterated up to twice: first to determine group activations,
    *                     then to union the styles from all activated groups.
    *
-   * @see  #renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyUnion_Metadata_Phrasing, boolean, java.util.Map, java.lang.Iterable)
+   * @see  Renderer#renderStyles(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyUnion_Metadata_Phrasing, boolean, java.util.Map, java.lang.Iterable)
    */
   public void renderStyles(
       HttpServletRequest request,
@@ -485,7 +485,7 @@ public class Renderer {
    * @param  registries  Iterated up to twice: first to determine group activations,
    *                     then to union the scripts from all activated groups.
    *
-   * @see  #renderScripts(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyScriptSupportingContent, boolean, java.util.Map, com.aoapps.web.resources.registry.Script.Position, java.lang.Iterable)
+   * @see  Renderer#renderScripts(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, com.aoapps.html.any.AnyScriptSupportingContent, boolean, java.util.Map, com.aoapps.web.resources.registry.Script.Position, java.lang.Iterable)
    */
   public void renderScripts(
       HttpServletRequest request,
