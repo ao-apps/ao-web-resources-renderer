@@ -77,11 +77,11 @@ public class Renderer {
    * Comments included when no styles or scripts are written.
    */
   private static final String
-      NO_REGISTRIES         = "<!-- ao-web-resources-renderer: no registries -->",
-      NO_ACTIVATIONS        = "<!-- ao-web-resources-renderer: no activations -->",
-      NO_STYLES             = "<!-- ao-web-resources-renderer: no styles -->",
-      NO_APPLICABLE_STYLES  = "<!-- ao-web-resources-renderer: no applicable styles -->",
-      NO_SCRIPTS            = "<!-- ao-web-resources-renderer: no scripts -->",
+      NO_REGISTRIES = "<!-- ao-web-resources-renderer: no registries -->",
+      NO_ACTIVATIONS = "<!-- ao-web-resources-renderer: no activations -->",
+      NO_STYLES = "<!-- ao-web-resources-renderer: no styles -->",
+      NO_APPLICABLE_STYLES = "<!-- ao-web-resources-renderer: no applicable styles -->",
+      NO_SCRIPTS = "<!-- ao-web-resources-renderer: no scripts -->",
       NO_APPLICABLE_SCRIPTS = "<!-- ao-web-resources-renderer: no applicable scripts -->";
 
   /**
