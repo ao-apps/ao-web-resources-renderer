@@ -1,6 +1,6 @@
 /*
  * ao-web-resources-renderer - Renders HTML for web resource management.
- * Copyright (C) 2020, 2021, 2022, 2023, 2024, 2025  AO Industries, Inc.
+ * Copyright (C) 2020, 2021, 2022, 2023, 2024, 2025, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -77,11 +77,11 @@ public class Renderer {
    * Comments included when no styles or scripts are written.
    */
   private static final String
-      NO_REGISTRIES         = "<!-- ao-web-resources-renderer: no registries -->",
-      NO_ACTIVATIONS        = "<!-- ao-web-resources-renderer: no activations -->",
-      NO_STYLES             = "<!-- ao-web-resources-renderer: no styles -->",
-      NO_APPLICABLE_STYLES  = "<!-- ao-web-resources-renderer: no applicable styles -->",
-      NO_SCRIPTS            = "<!-- ao-web-resources-renderer: no scripts -->",
+      NO_REGISTRIES = "<!-- ao-web-resources-renderer: no registries -->",
+      NO_ACTIVATIONS = "<!-- ao-web-resources-renderer: no activations -->",
+      NO_STYLES = "<!-- ao-web-resources-renderer: no styles -->",
+      NO_APPLICABLE_STYLES = "<!-- ao-web-resources-renderer: no applicable styles -->",
+      NO_SCRIPTS = "<!-- ao-web-resources-renderer: no scripts -->",
       NO_APPLICABLE_SCRIPTS = "<!-- ao-web-resources-renderer: no applicable scripts -->";
 
   /**
