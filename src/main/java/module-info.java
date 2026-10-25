@@ -21,7 +21,6 @@
  * along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses/>.
  */
 module com.aoapps.web.resources.renderer {
-  exports com.aoapps.web.resources.renderer;
   // Direct
   requires com.aoapps.html.any; // <groupId>com.aoapps</groupId><artifactId>ao-fluent-html-any</artifactId>
   requires com.aoapps.lang; // <groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
@@ -33,4 +32,6 @@ module com.aoapps.web.resources.renderer {
   requires jakarta.servlet; // <groupId>jakarta.servlet</groupId><artifactId>jakarta.servlet-api</artifactId>
   // Java SE
   requires java.logging;
+
+  exports com.aoapps.web.resources.renderer;
 }
