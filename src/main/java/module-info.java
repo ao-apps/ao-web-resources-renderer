@@ -1,6 +1,6 @@
 /*
  * ao-web-resources-renderer - Renders HTML for web resource management.
- * Copyright (C) 2021, 2022, 2023, 2025  AO Industries, Inc.
+ * Copyright (C) 2021, 2022, 2023, 2025, 2026  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -21,7 +21,6 @@
  * along with ao-web-resources-renderer.  If not, see <https://www.gnu.org/licenses/>.
  */
 module com.aoapps.web.resources.renderer {
-  exports com.aoapps.web.resources.renderer;
   // Direct
   requires com.aoapps.html.any; // <groupId>com.aoapps</groupId><artifactId>ao-fluent-html-any</artifactId>
   requires com.aoapps.lang; // <groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
@@ -33,4 +32,6 @@ module com.aoapps.web.resources.renderer {
   requires javax.servlet.api; // <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId>
   // Java SE
   requires java.logging;
+
+  exports com.aoapps.web.resources.renderer;
 }
